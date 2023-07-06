@@ -288,8 +288,8 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
 
                 game.mm3.RollMacro(
                     actor._id, 
-                    actor.isToken ? canvas.scene?.id : null, 
-                    actor.isToken ? actor.token.id : null,
+                    actor.isToken ? token?.scene?._id : 'null', 
+                    actor.isToken ? actor?.token?._id : 'null',
                     actionTypeId,
                     what,
                     id,
@@ -299,8 +299,8 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
             case 'pouvoir':
                 game.mm3.RollMacroPwr(
                     actor._id,
-                    actor.isToken ? canvas.scene?.id : null, 
-                    actor.isToken ? actor.token.id : null,
+                    actor.isToken ? token?.scene?._id : 'null', 
+                    actor.isToken ? actor?.token?._id : 'null',
                     actionId,
                     actor.type
                     );                

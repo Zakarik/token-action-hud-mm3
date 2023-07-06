@@ -1,4 +1,8 @@
-## Version 1.2
+## Version 1.2.2
+### Bugfix
+- Correction d'un bug empêchant les jets de fonctionner.
+
+## Version 1.2.1
 ### Bugfix
 - Correction d'un bug empêchant l'installation.
 
