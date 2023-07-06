@@ -12,7 +12,7 @@ A plug-in module for the module [Token Action HUD Core](https://foundryvtt.com/p
 
 It can be installed by searching in Foundry's module installer, or by directly entering the following URL:
 
-https://github.com/farling42/token-action-hud-cyphersystem/releases/latest/download/module.json
+https://raw.githubusercontent.com/Zakarik/token-action-hud-mm3/master/module.json
 
 ## License
 
