@@ -1,0 +1,9 @@
+{
+  "tokenActionHud": {
+    "template": {
+      "etats": "États",
+      "attaques":"Attaques",
+      "defenses":"Défenses"
+    }
+  }
+}
