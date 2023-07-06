@@ -10,7 +10,7 @@ A plug-in module for the module [Token Action HUD Core](https://foundryvtt.com/p
 
 ## Installation
 
-It can be installed by searching in Foundry's module installer, or by directly entering the following URL:
+It can be installed by searching in Foundry's module installer (Currently awaiting validation), or by directly entering the following URL:
 
 https://raw.githubusercontent.com/Zakarik/token-action-hud-mm3/master/module.json
 
