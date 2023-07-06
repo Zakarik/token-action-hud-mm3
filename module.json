@@ -42,7 +42,7 @@
         "compatibility": [
           {
             "minimum": "1.0.0",
-            "verified": "1.4.4"
+            "verified": "1.4"
           }
         ]
       }
@@ -65,7 +65,7 @@
       "optional": []
     }
   },
-  "manifest": "This is auto replaced",
-  "download": "This is auto replaced",
-  "readme": "https://github.com/Larkinabout/fvtt-token-action-hud-template#readme"
+  "manifest": "https://raw.githubusercontent.com/Zakarik/token-action-hud-mm3/master/module.json",
+  "download": "https://github.com/Zakarik/token-action-hud-mm3/archive/1.0.0.zip",
+  "readme": "https://github.com/Zakarik/token-action-hud-mm3#readme"
 }
