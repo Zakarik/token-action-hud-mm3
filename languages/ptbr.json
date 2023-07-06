@@ -1,0 +1,9 @@
+{
+  "tokenActionHud": {
+    "template": {
+      "etats": "Condições",
+      "attaques":"Ataques",
+      "defenses":"Defesas"
+    }
+  }
+}

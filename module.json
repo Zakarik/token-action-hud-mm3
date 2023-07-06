@@ -10,7 +10,7 @@
       "flags": {}
     }
   ],
-  "version": "1.0",
+  "version": "1.1.0",
   "compatibility": {
     "minimum": "10",
     "verified": "11"
@@ -66,6 +66,7 @@
     }
   },
   "manifest": "https://raw.githubusercontent.com/Zakarik/token-action-hud-mm3/master/module.json",
-  "download": "https://github.com/Zakarik/token-action-hud-mm3/archive/1.0.0.zip",
-  "readme": "https://github.com/Zakarik/token-action-hud-mm3#readme"
+  "download": "https://github.com/Zakarik/token-action-hud-mm3/archive/1.1.0.zip",
+  "readme": "https://github.com/Zakarik/token-action-hud-mm3#readme",
+  "changelog": "https://github.com/Zakarik/token-action-hud-mm3/blob/master/Changelog.md"
 }
