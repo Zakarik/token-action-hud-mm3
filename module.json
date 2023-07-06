@@ -1,7 +1,7 @@
 {
   "id": "token-action-hud-mm3",
-  "title": "Token Action HUD MM3",
-  "description": "Token Action HUD is a repositionable HUD of actions for a selected token",
+  "title": "Token Action HUD Mutants and Masterminds 3E",
+  "description": "Token Action HUD Mutants & Masterminds 3E Token Action HUD is a repositionable HUD of actions for a selected token",
   "authors": [
     {
       "name": "Zakarik",
@@ -10,7 +10,7 @@
       "flags": {}
     }
   ],
-  "version": "1.1.0",
+  "version": "1.2.0",
   "compatibility": {
     "minimum": "10",
     "verified": "11"
@@ -31,6 +31,11 @@
       "lang": "fr",
       "name": "French",
       "path": "languages/fr.json"
+    },
+    {
+      "lang": "pt-BR",
+      "name": "Português (Brasil)",
+      "path": "lang/ptbr.json"
     }
   ],
   "packs": [],
@@ -66,7 +71,7 @@
     }
   },
   "manifest": "https://raw.githubusercontent.com/Zakarik/token-action-hud-mm3/master/module.json",
-  "download": "https://github.com/Zakarik/token-action-hud-mm3/archive/1.1.0.zip",
+  "download": "https://github.com/Zakarik/token-action-hud-mm3/archive/1.2.0.zip",
   "readme": "https://github.com/Zakarik/token-action-hud-mm3#readme",
   "changelog": "https://github.com/Zakarik/token-action-hud-mm3/blob/master/Changelog.md"
 }
