@@ -1,3 +1,7 @@
+## Version 1.2.3
+### Bugfix
+- Correction de problèmes de traductions.
+
 ## Version 1.2.2
 ### Bugfix
 - Correction d'un bug empêchant les jets de fonctionner.
