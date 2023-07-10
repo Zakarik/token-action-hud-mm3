@@ -1,3 +1,7 @@
+## Version 1.3.1
+### Bugfix
+- Correction d'un bug suite à la dernière mise à jour.
+
 ## Version 1.3
 ### Améliorations
 - Ajout de la traduction espagnole.
