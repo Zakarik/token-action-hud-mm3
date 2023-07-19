@@ -99,16 +99,23 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                         let encodedValue = [macroType, `${comp}_${l}`].join(this.delimiter);
         
                         competences[comp].push({
-                            name:name,
+                            name:name === '' ? game.i18n.localize('MM3.Adefinir') : name,
                             id:`${comp}_${l}`,
                             encodedValue:encodedValue
                         });
                     }                    
                 } else {
-                    let encodedValue = [macroType, comp].join(this.delimiter);
+                    let isNew = compActor[comp].new;
+                    let cmp = isNew ? `${comp}_new` : comp;
+                    let encodedValue = [macroType, cmp].join(this.delimiter);
+                    let label = game.i18n.localize('MM3.Adefinir');
+
+                    if(isNew) {
+                        label = compActor[comp].label === '' ? label : compActor[comp].label;
+                    }
     
                     competences.base.push({
-                        name:game.i18n.localize(game.mm3.config.competences[comp]),
+                        name:isNew ? label : game.i18n.localize(game.mm3.config.competences[comp]),
                         id:`${comp}`,
                         encodedValue:encodedValue
                     });
@@ -122,7 +129,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                 const ng = main === 'base' ? {id:`competence_${main}`, type:'system'} : {id:`competence_${main}`, name:game.i18n.localize(game.mm3.config.competences[main]), type:'system'}
 
                 if(competences[main].length > 0 && main !== 'base') {
-                    await this.addGroup(ng,{id:COMPETENCE_ID, type:'system'});    
+                    await this.addGroup(ng,{id:COMPETENCE_ID, type:'system'});
                     await this.addActions(competences[main], {id:`competence_${main}`, type:'system'}, true);
                 }                
             }
@@ -170,7 +177,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                 let encodedValue = [macroType, `attaque_${att}`].join(this.delimiter);
 
                 attaques.push({
-                    name:name,
+                    name:name === '' ? game.i18n.localize('MM3.Adefinir') : name,
                     id:att,
                     encodedValue:encodedValue
                 });
@@ -293,7 +300,8 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                     actionTypeId,
                     what,
                     id,
-                    actor.type
+                    actor.type,
+                    event
                     );                
                 break;
             case 'pouvoir':

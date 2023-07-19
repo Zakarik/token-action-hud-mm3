@@ -1,3 +1,8 @@
+## Version 1.5
+### Améliorations
+- Prise en charge du nouveau modificateur de DD du système.
+- Prise en charge des compétences personnalisées.
+
 ## Version 1.4
 ### Améliorations
 - Ajout de la traduction italienne.
