@@ -1,3 +1,10 @@
+## Version 1.6
+### Améliorations
+- Prise en charge de la nouvelle gestion des états combinés du système.
+
+### Bugfix
+- Correction d'un bug avec les états n'appliquant pas les malus correctement.
+
 ## Version 1.5
 ### Améliorations
 - Prise en charge du nouveau modificateur de DD du système.

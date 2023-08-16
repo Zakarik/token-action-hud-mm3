@@ -314,23 +314,62 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                     );                
                 break;
             case 'etat':
+                const version = game.version.split('.')[0];
                 const statusEffect = CONFIG.statusEffects.find((se) => se.id === actionId);
-                const hasCondition = coreModule.api.Utils.getStatusEffect(actor, actionId);
-                if (statusEffect && !hasCondition) {
-                    const effectData = {
-                        name: game.i18n.localize(statusEffect.label),
-                        label: game.i18n.localize(statusEffect.label),
-                        icon: statusEffect.icon,
-                        "flags.core.statusId":actionId
-                    };
-                    await token.actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
+
+                if(version < 11) {                    
+                    const hasCondition = coreModule.api.Utils.getStatusEffect(actor, actionId);
+
+                    if (statusEffect && !hasCondition) {
+                        const changes = statusEffect?.changes ?? false;
+
+                        let effectData = {
+                            name: game.i18n.localize(statusEffect.label),
+                            label: game.i18n.localize(statusEffect.label),
+                            icon: statusEffect.icon,
+                            "flags.core.statusId":actionId,
+                        };
+
+                        if(changes !== false) {
+                            effectData['changes'] = changes;
+                        }
+
+                        await token.actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
+                    } else {
+                        // Filtre et détruit les effets sur l'actor ayant l'id actionId
+                        const existingEffects = token.actor.effects.filter((effect) => effect.flags.core?.statusId === actionId);
+                        for (const effect of existingEffects) {
+                            await effect.delete();
+                        }
+                    }
                 } else {
-                    // Filtre et détruit les effets sur l'actor ayant l'id actionId
-                    const existingEffects = token.actor.effects.filter((effect) => effect.data.flags.core?.statusId === actionId);
-                    for (const effect of existingEffects) {
-                        await effect.delete();
+                    const hasCondition = coreModule.api.Utils.getStatusEffect(actor, actionId);
+
+                    if (statusEffect && !hasCondition) {
+                        const changes = statusEffect?.changes ?? false;
+
+                        let effectData = {
+                            name: game.i18n.localize(statusEffect.label),
+                            label: game.i18n.localize(statusEffect.label),
+                            icon: statusEffect.icon,
+                            statuses:[actionId]
+                        };
+
+                        if(changes !== false) {
+                            effectData['changes'] = changes;
+                        }
+
+                        await token.actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
+                    } else {
+                        // Filtre et détruit les effets sur l'actor ayant l'id actionId
+                        const existingEffects = token.actor.effects.filter((effect) => effect.statuses.has(actionId));
+
+                        for (const effect of existingEffects) {
+                            await effect.delete();
+                        }
                     }
                 }
+                
                 break;
             }
         }
