@@ -9,6 +9,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
     const POUVOIR_ID = 'pouvoir';
     const ATTAQUE_ID = 'attaque';
     const DEFENSE_ID = 'defense';
+    const VITESSE_ID = 'vitesse';
     const ETAT_ID = 'etat';
 
     /**
@@ -24,8 +25,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
         async buildSystemActions (groupIds) {
             
             // Set actor and token variables
-            this.actors = (!this.actor) ? this._getActors() : [this.actor]
-            this.actorType = this.actor?.type
+            this.actorType = this.actor?.type;
 
             // Set items variable
             if (this.actor) {
@@ -51,7 +51,8 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
             this.#buildPouvoirs()
             this.#buildAttaque()            
             this.#buildDefense()            
-            this.#buildEtat()            
+            this.#buildVitesse()            
+            this.#buildEtat()        
         }
         
         #buildVehiculeActions () {
@@ -171,17 +172,19 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                 const data = actor.system.attaque[att];
                 let name = "";
 
-                if(data.type === 'combatcontact' || data.type === 'combatdistance') name = actor.system.competence[data.type].list[data.id].label;
+                if(data.type === 'combatcontact' || data.type === 'combatdistance') name = game.mm3.getDataSubSkill(actor, data.type, data.skill).label;
                 else name = data.label;
 
-                let encodedValue = [macroType, `attaque_${att}`].join(this.delimiter);
+                let encodedValue = [macroType, `attaque_${data._id}`].join(this.delimiter);
 
                 attaques.push({
                     name:name === '' ? game.i18n.localize('MM3.Adefinir') : name,
-                    id:att,
+                    id:data._id,
                     encodedValue:encodedValue
                 });
             }
+
+            console.warn(attaques)
 
             await this.addActions(attaques, {id:ATTAQUE_ID, type:'system'}, true)
         }
@@ -204,6 +207,37 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
             }
 
             await this.addActions(defenses, {id:DEFENSE_ID, type:'system'}, true)
+        }
+
+        async #buildVitesse() {
+            const actor = this.actor;
+
+            let macroType = 'vitesse';
+            let vitesses = [];
+
+            for(let vit in actor.system.vitesse.list) {
+                let data = actor.system.vitesse.list[vit]
+                let autotrade = data?.autotrade ?? false;
+                let name = autotrade !== false ? game.i18n.localize(CONFIG.MM3.vitesse[autotrade]) : data.label;
+                let encodedValue = [macroType, vit].join(this.delimiter);
+                let isSelected = data?.selected ?? false;
+                let css = isSelected ? 'selected' : '';
+
+                console.warn(data);
+
+                vitesses.push({
+                    name:name,
+                    id:vit,
+                    encodedValue:encodedValue,
+                    cssClass:css,
+                });
+
+                console.warn(actor.system.vitesse.list[vit])
+            }
+
+            console.warn(vitesses);
+
+            await this.addActions(vitesses, {id:VITESSE_ID, type:'system'}, true)
         }
 
         async #buildEtat() {
@@ -284,92 +318,46 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
          * @param {string} actionId     The actionId
          */
         async #handleAction (event, actor, token, actionTypeId, actionId) {
+            let idDecompose;
             switch (actionTypeId) {
-            case 'caracteristique':
-            case 'competence':
-            case 'defense':
-            case 'attaque':
-                let idDecompose = actionId.split('_');
-                let what = idDecompose[0];
-                let id = idDecompose?.[1] ?? "-1";
+                case 'caracteristique':
+                case 'competence':
+                case 'defense':
+                case 'attaque':
+                    idDecompose = actionId.split('_');
+                    let what = idDecompose[0];
+                    let id = idDecompose?.[1] ?? "-1";
 
-                game.mm3.RollMacro(
-                    actor._id, 
-                    actor.isToken ? token?.scene?._id : 'null', 
-                    actor.isToken ? actor?.token?._id : 'null',
-                    actionTypeId,
-                    what,
-                    id,
-                    actor.type,
-                    event
-                    );                
+                    game.mm3.RollMacro(
+                        actor._id, 
+                        actor.isToken ? token?.scene?._id : 'null', 
+                        actor.isToken ? actor?.token?._id : 'null',
+                        actionTypeId,
+                        what,
+                        id,
+                        actor.type,
+                        event
+                        );                
                 break;
-            case 'pouvoir':
-                game.mm3.RollMacroPwr(
-                    actor._id,
-                    actor.isToken ? token?.scene?._id : 'null', 
-                    actor.isToken ? actor?.token?._id : 'null',
-                    actionId,
-                    actor.type
-                    );                
+                case 'pouvoir':
+                    game.mm3.RollMacroPwr(
+                        actor._id,
+                        actor.isToken ? token?.scene?._id : 'null', 
+                        actor.isToken ? actor?.token?._id : 'null',
+                        actionId,
+                        actor.type,
+                        event
+                        );                
                 break;
-            case 'etat':
-                const version = game.version.split('.')[0];
-                const statusEffect = CONFIG.statusEffects.find((se) => se.id === actionId);
-
-                if(version < 11) {                    
-                    const hasCondition = coreModule.api.Utils.getStatusEffect(actor, actionId);
-
-                    if (statusEffect && !hasCondition) {
-                        const changes = statusEffect?.changes ?? false;
-
-                        let effectData = {
-                            name: game.i18n.localize(statusEffect.label),
-                            label: game.i18n.localize(statusEffect.label),
-                            icon: statusEffect.icon,
-                            "flags.core.statusId":actionId,
-                        };
-
-                        if(changes !== false) {
-                            effectData['changes'] = changes;
-                        }
-
-                        await token.actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
+                case 'vitesse':
+                    game.mm3.setSpeed(actor, actionId);
+                break;
+                case 'etat':
+                    if(game.mm3.hasStatus(actor, actionId)) {
+                        await game.mm3.deleteStatus(actor, actionId);
                     } else {
-                        // Filtre et détruit les effets sur l'actor ayant l'id actionId
-                        const existingEffects = token.actor.effects.filter((effect) => effect.flags.core?.statusId === actionId);
-                        for (const effect of existingEffects) {
-                            await effect.delete();
-                        }
-                    }
-                } else {
-                    const hasCondition = coreModule.api.Utils.getStatusEffect(actor, actionId);
-
-                    if (statusEffect && !hasCondition) {
-                        const changes = statusEffect?.changes ?? false;
-
-                        let effectData = {
-                            name: game.i18n.localize(statusEffect.label),
-                            label: game.i18n.localize(statusEffect.label),
-                            icon: statusEffect.icon,
-                            statuses:[actionId]
-                        };
-
-                        if(changes !== false) {
-                            effectData['changes'] = changes;
-                        }
-
-                        await token.actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
-                    } else {
-                        // Filtre et détruit les effets sur l'actor ayant l'id actionId
-                        const existingEffects = token.actor.effects.filter((effect) => effect.statuses.has(actionId));
-
-                        for (const effect of existingEffects) {
-                            await effect.delete();
-                        }
-                    }
-                }
-                
+                        await game.mm3.setStatus(actor, actionId);
+                    }                
                 break;
             }
         }
@@ -463,6 +451,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                 attaque: { id: 'attaque', name: `tokenActionHud.template.attaques`, type: 'system' },
                 defense: { id: 'defense', name: `tokenActionHud.template.defenses`, type: 'system' },
                 pouvoir: { id: 'pouvoir', name: `MM3.Pouvoirs`, type: 'system' },
+                vitesse: { id: 'vitesse', name: `MM3.VITESSE.Vitesses`, type: 'system' },
                 etat: { id: 'etat', name: `tokenActionHud.template.etats`, type: 'system' },
             }
 
@@ -496,7 +485,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                     {
                         nestId: 'attaque',
                         id: ATTAQUE_ID,
-                        name: coreModule.api.Utils.i18n('tokenActionHud.template.attaques'),
+                        name: coreModule.api.Utils.i18n('MM3.Attaques'),
                         groups: [
                             { ...groups.attaque, nestId: 'attaque_attaque'},
                         ]
@@ -515,6 +504,14 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                         name: coreModule.api.Utils.i18n('MM3.Pouvoirs'),
                         groups: [
                             { ...groups.pouvoir, nestId: 'pouvoir_pouvoir' },
+                        ]
+                    },
+                    {
+                        nestId: 'vitesse',
+                        id: VITESSE_ID,
+                        name: coreModule.api.Utils.i18n('MM3.VITESSE.Vitesses'),
+                        groups: [
+                            { ...groups.vitesse, nestId: 'vitesse_vitesse' },
                         ]
                     },
                     {

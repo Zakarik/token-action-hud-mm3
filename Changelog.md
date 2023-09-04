@@ -1,3 +1,8 @@
+## Version 1.7
+### Améliorations
+- Prise en charge des nouveautés de la mise à jour 1.26 du système.
+- Ajout de la possibilité de modifié la vitesse via Token Action HUD.
+
 ## Version 1.6
 ### Améliorations
 - Prise en charge de la nouvelle gestion des états combinés du système.

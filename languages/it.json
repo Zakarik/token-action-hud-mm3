@@ -2,7 +2,6 @@
   "tokenActionHud": {
     "template": {
       "etats": "condizioni",
-      "attaques":"Attacchi",
       "defenses":"Difese"
     }
   }
