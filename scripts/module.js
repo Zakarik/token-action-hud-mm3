@@ -170,10 +170,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
 
             for(let att in actor.system.attaque) {
                 const data = actor.system.attaque[att];
-                let name = "";
-
-                if(data.type === 'combatcontact' || data.type === 'combatdistance') name = game.mm3.getDataSubSkill(actor, data.type, data.skill).label;
-                else name = data.label;
+                let name = data.label;
 
                 let encodedValue = [macroType, `attaque_${data._id}`].join(this.delimiter);
 
@@ -448,7 +445,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
             const GROUP = {
                 caracteristique: { id: 'caracteristique', name: `MM3.Caracteristiques`, type: 'system' },
                 competence: { id: 'competence', name: `MM3.Competences`, type: 'system' },
-                attaque: { id: 'attaque', name: `tokenActionHud.template.attaques`, type: 'system' },
+                attaque: { id: 'attaque', name: `MM3.Attaques`, type: 'system' },
                 defense: { id: 'defense', name: `tokenActionHud.template.defenses`, type: 'system' },
                 pouvoir: { id: 'pouvoir', name: `MM3.Pouvoirs`, type: 'system' },
                 vitesse: { id: 'vitesse', name: `MM3.VITESSE.Vitesses`, type: 'system' },

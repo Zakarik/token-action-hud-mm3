@@ -1,3 +1,7 @@
+## Version 1.7.1
+### Bugfix
+- Correction d'un bug avec le nom des attaques.
+
 ## Version 1.7
 ### Améliorations
 - Prise en charge des nouveautés de la mise à jour 1.26 du système.
