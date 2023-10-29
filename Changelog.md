@@ -1,3 +1,8 @@
+## Version 1.8.0
+### Améliorations
+- Ajout de la compatibilité avec Token Action HUD 1.5.0
+- Retrait de quelques logs qui trainaient encore depuis la dernière mise à jour.
+
 ## Version 1.7.1
 ### Bugfix
 - Correction d'un bug avec le nom des attaques.

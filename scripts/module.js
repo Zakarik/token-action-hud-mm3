@@ -181,8 +181,6 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                 });
             }
 
-            console.warn(attaques)
-
             await this.addActions(attaques, {id:ATTAQUE_ID, type:'system'}, true)
         }
         
@@ -220,19 +218,13 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                 let isSelected = data?.selected ?? false;
                 let css = isSelected ? 'selected' : '';
 
-                console.warn(data);
-
                 vitesses.push({
                     name:name,
                     id:vit,
                     encodedValue:encodedValue,
                     cssClass:css,
                 });
-
-                console.warn(actor.system.vitesse.list[vit])
             }
-
-            console.warn(vitesses);
 
             await this.addActions(vitesses, {id:VITESSE_ID, type:'system'}, true)
         }
@@ -271,7 +263,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
          * @param {object} event        The event
          * @param {string} encodedValue The encoded value
          */
-        async doHandleActionEvent (event, encodedValue) {
+        async handleActionClick (event, encodedValue) {
             const payload = encodedValue.split('|')
 
             if (payload.length !== 2) {
@@ -284,7 +276,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
             const renderable = ['item']
 
             if (renderable.includes(actionTypeId) && this.isRenderItem()) {
-                return this.doRenderItem(this.actor, actionId)
+                return RollHandler.renderItem(this.actor, actionId)
             }
 
             const knownCharacters = ['personnage', 'vehicule'];
@@ -398,7 +390,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
          * @override
          * @returns {ActionHandler} The ActionHandler instance
          */
-        doGetActionHandler () {
+        getActionHandler () {
             return new MM3ActionHandler()
         }
 
@@ -422,7 +414,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
          * @param {string} rollHandlerId The roll handler ID
          * @returns {rollHandler}        The RollHandler instance
          */
-        doGetRollHandler (rollHandlerId) {
+        getRollHandler (rollHandlerId) {
             return new MM3RollHandler()
         }
 
@@ -441,7 +433,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
          * Called by Token Action HUD Core
          * @returns {object} The default layout and groups
          */
-        async doRegisterDefaultFlags () {
+        async registerDefaults () {
             const GROUP = {
                 caracteristique: { id: 'caracteristique', name: `MM3.Caracteristiques`, type: 'system' },
                 competence: { id: 'competence', name: `MM3.Competences`, type: 'system' },
@@ -530,7 +522,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
 
     const module = game.modules.get('token-action-hud-mm3');
     module.api = {
-        requiredCoreModuleVersion: '1.4',
+        requiredCoreModuleVersion: '1.5',
         SystemManager: MM3SystemManager
     }    
     Hooks.call('tokenActionHudSystemReady', module)
