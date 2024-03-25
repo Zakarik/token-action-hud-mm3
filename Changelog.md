@@ -1,3 +1,7 @@
+## Version 1.8.1
+### Améliorations
+- Correction d'un bug de compatibilité avec le nouveau système de modificateur.
+
 ## Version 1.8.0
 ### Améliorations
 - Ajout de la compatibilité avec Token Action HUD 1.5.0
