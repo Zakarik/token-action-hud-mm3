@@ -1,5 +1,5 @@
 ## Version 1.8.1
-### Améliorations
+### Bugfix
 - Correction d'un bug de compatibilité avec le nouveau système de modificateur.
 
 ## Version 1.8.0
