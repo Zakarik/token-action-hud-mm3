@@ -236,7 +236,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
 
             for(let eta of list) {
                 let encodedValue = [macroType, eta.id].join(this.delimiter);
-                let css = coreModule.api.Utils.getStatusEffect(this.actor, eta.id) ? 'selected' : '';
+                let css = game.mm3.hasStatus(this.actor, eta.id) ? 'selected' : '';
 
                 etats.push({
                     name:game.i18n.localize(eta.label),
