@@ -77,7 +77,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                 });
             }
 
-            await this.addActions(caracteristiques, {id:CARACTERISTIQUE_ID, type:'system'}, true)
+            this.addActions(caracteristiques, {id:CARACTERISTIQUE_ID, type:'system'}, true)
         }
 
         async #buildCompetences() {
@@ -130,8 +130,8 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                 const ng = main === 'base' ? {id:`competence_${main}`, type:'system'} : {id:`competence_${main}`, name:game.i18n.localize(game.mm3.config.competences[main]), type:'system'}
 
                 if(competences[main].length > 0 && main !== 'base') {
-                    await this.addGroup(ng,{id:COMPETENCE_ID, type:'system'});
-                    await this.addActions(competences[main], {id:`competence_${main}`, type:'system'}, true);
+                    this.addGroup(ng,{id:COMPETENCE_ID, type:'system'});
+                    this.addActions(competences[main], {id:`competence_${main}`, type:'system'}, true);
                 }                
             }
         }
@@ -159,7 +159,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                 }
             }
 
-            await this.addActions(pouvoirs, {id:POUVOIR_ID, type:'system'}, true);
+            this.addActions(pouvoirs, {id:POUVOIR_ID, type:'system'}, true);
         }
 
         async #buildAttaque() {
@@ -181,7 +181,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                 });
             }
 
-            await this.addActions(attaques, {id:ATTAQUE_ID, type:'system'}, true)
+            this.addActions(attaques, {id:ATTAQUE_ID, type:'system'}, true)
         }
         
         async #buildDefense() {
@@ -201,7 +201,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                 });
             }
 
-            await this.addActions(defenses, {id:DEFENSE_ID, type:'system'}, true)
+            this.addActions(defenses, {id:DEFENSE_ID, type:'system'}, true)
         }
 
         async #buildVitesse() {
@@ -226,7 +226,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                 });
             }
 
-            await this.addActions(vitesses, {id:VITESSE_ID, type:'system'}, true)
+            this.addActions(vitesses, {id:VITESSE_ID, type:'system'}, true)
         }
 
         async #buildEtat() {
@@ -247,7 +247,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                 });
             }
 
-            await this.addActions(etats, {id:ETAT_ID, type:'system'}, true)
+            this.addActions(etats, {id:ETAT_ID, type:'system'}, true)
         }
     }
 

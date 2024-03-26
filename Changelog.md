@@ -1,3 +1,11 @@
+## Version 1.8.2
+### Bugfix
+- Correction d'un bug dans l'affichage des compétences de Combat au contact, Combat à distance et Expertise.
+
+## Version 1.8.1
+### Bugfix
+- Correction d'un bug de compatibilité avec le nouveau système de modificateur.
+
 ## Version 1.8.0
 ### Améliorations
 - Ajout de la compatibilité avec Token Action HUD 1.5.0
