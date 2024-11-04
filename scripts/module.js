@@ -23,7 +23,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
          * @param {array} groupIds
          */a
         async buildSystemActions (groupIds) {
-            
+
             // Set actor and token variables
             this.actorType = this.actor?.type;
 
@@ -49,15 +49,15 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
             this.#buildCaracteristiques()
             this.#buildCompetences()
             this.#buildPouvoirs()
-            this.#buildAttaque()            
-            this.#buildDefense()            
-            this.#buildVitesse()            
-            this.#buildEtat()        
+            this.#buildAttaque()
+            this.#buildDefense()
+            this.#buildVitesse()
+            this.#buildEtat()
         }
-        
+
         #buildVehiculeActions () {
             this.#buildCaracteristiques()
-            this.#buildPouvoirs()            
+            this.#buildPouvoirs()
         }
 
         async #buildCaracteristiques() {
@@ -98,13 +98,13 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                         let data = compActor[comp].list[l];
                         let name = data.label;
                         let encodedValue = [macroType, `${comp}_${l}`].join(this.delimiter);
-        
+
                         competences[comp].push({
                             name:name === '' ? game.i18n.localize('MM3.Adefinir') : name,
                             id:`${comp}_${l}`,
                             encodedValue:encodedValue
                         });
-                    }                    
+                    }
                 } else {
                     let isNew = compActor[comp].new;
                     let cmp = isNew ? `${comp}_new` : comp;
@@ -114,14 +114,14 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                     if(isNew) {
                         label = compActor[comp].label === '' ? label : compActor[comp].label;
                     }
-    
+
                     competences.base.push({
                         name:isNew ? label : game.i18n.localize(game.mm3.config.competences[comp]),
                         id:`${comp}`,
                         encodedValue:encodedValue
                     });
                 }
-                
+
             }
 
             await this.addActions(competences.base, {id:COMPETENCE_ID, type:'system'});
@@ -132,13 +132,13 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                 if(competences[main].length > 0 && main !== 'base') {
                     this.addGroup(ng,{id:COMPETENCE_ID, type:'system'});
                     this.addActions(competences[main], {id:`competence_${main}`, type:'system'}, true);
-                }                
+                }
             }
         }
 
         async #buildPouvoirs() {
             const items = this.items;
-            
+
             let pouvoirs = [];
             let macroType = 'pouvoir';
 
@@ -183,7 +183,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
 
             this.addActions(attaques, {id:ATTAQUE_ID, type:'system'}, true)
         }
-        
+
         async #buildDefense() {
             const actor = this.actor;
 
@@ -318,25 +318,25 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                     let id = idDecompose?.[1] ?? "-1";
 
                     game.mm3.RollMacro(
-                        actor._id, 
-                        actor.isToken ? token?.scene?._id : 'null', 
+                        actor._id,
+                        actor.isToken ? token?.scene?._id : 'null',
                         actor.isToken ? actor?.token?._id : 'null',
                         actionTypeId,
                         what,
                         id,
                         actor.type,
                         event
-                        );                
+                        );
                 break;
                 case 'pouvoir':
                     game.mm3.RollMacroPwr(
                         actor._id,
-                        actor.isToken ? token?.scene?._id : 'null', 
+                        actor.isToken ? token?.scene?._id : 'null',
                         actor.isToken ? actor?.token?._id : 'null',
                         actionId,
                         actor.type,
                         event
-                        );                
+                        );
                 break;
                 case 'vitesse':
                     game.mm3.setSpeed(actor, actionId);
@@ -346,7 +346,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                         await game.mm3.deleteStatus(actor, actionId);
                     } else {
                         await game.mm3.setStatus(actor, actionId);
-                    }                
+                    }
                 break;
             }
         }
@@ -513,7 +513,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
                     },
                 ],
                 groups: groupsArray
-            }  
+            }
             return DEFAULTS
         }
     }
@@ -522,8 +522,8 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
 
     const module = game.modules.get('token-action-hud-mm3');
     module.api = {
-        requiredCoreModuleVersion: '1.5',
+        requiredCoreModuleVersion: '2.0',
         SystemManager: MM3SystemManager
-    }    
+    }
     Hooks.call('tokenActionHudSystemReady', module)
 });

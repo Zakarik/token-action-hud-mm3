@@ -70,9 +70,9 @@
         "type": "module",
         "compatibility": [
           {
-            "minimum": "1.4.7",
-            "maximum": "1.4",
-            "verified": "1.4.7"
+            "minimum": "2.0.5",
+            "maximum": "2.0",
+            "verified": "2.0.5"
           }
         ]
       }
