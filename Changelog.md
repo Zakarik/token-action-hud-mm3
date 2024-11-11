@@ -1,3 +1,7 @@
+## Version 1.8.4
+### Bugfix
+- Correction de problème dans le workflow.
+
 ## Version 1.8.3
 ### Bugfix
 - Fix pour compatibilité avec Token Action HUD 2.0.0
