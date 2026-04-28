@@ -1,3 +1,7 @@
+## Version 1.9.0
+### Améliorations
+- Compatibilité avec Foundry V14 et la dernière version de Token Action HUD.
+
 ## Version 1.8.4
 ### Bugfix
 - Correction de problème dans le workflow.

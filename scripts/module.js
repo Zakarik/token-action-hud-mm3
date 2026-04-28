@@ -522,7 +522,7 @@ Hooks.on('tokenActionHudCoreApiReady', async (coreModule) => {
 
     const module = game.modules.get('token-action-hud-mm3');
     module.api = {
-        requiredCoreModuleVersion: '2.0',
+        requiredCoreModuleVersion: '2.1',
         SystemManager: MM3SystemManager
     }
     Hooks.call('tokenActionHudSystemReady', module)
